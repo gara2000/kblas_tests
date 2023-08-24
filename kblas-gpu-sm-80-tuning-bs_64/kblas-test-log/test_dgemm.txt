@@ -1,0 +1,26 @@
+usage: -N m[:n] --range m-start:m-end:m-step -m INT -n INT -L|U -SL|SR -DN|DU -[NTC][NTC] -c --niter INT --dev devID
+
+  --range start:stop:step
+                   Adds test cases with range for sizes m,n. Can be repeated.
+  -N m[:n]         Adds one test case with sizes m,n. Can be repeated.
+                   If only m given then n=m.
+  -m m             Sets m for all tests, overriding -N and --range.
+  -n n             Sets n for all tests, overriding -N and --range.
+
+  -c  --[no]check  Whether to check results against CUBLAS, default is on.
+  --dev x          GPU device to use, default 0.
+
+  --niter x        Number of iterations to repeat each test, default 1.
+  -L -U            uplo   = Lower*, Upper.
+  -[NTC][NTC]      transA = NoTrans*, Trans, or ConjTrans (first letter) and
+                   transB = NoTrans*, Trans, or ConjTrans (second letter).
+  -[TC]            transA = Trans or ConjTrans. Default is NoTrans. Doesn't change transB.
+  -S[LR]           side   = Left*, Right.
+  -D[NU]           diag   = NonUnit*, Unit.
+                   * default values
+
+examples: 
+to test trmm with matrix A[512,512], B[2000,512] do
+   test_dtrmm -N 2000:512 
+to test trmm for range of sizes starting at 1024, stoping at 4096, steping at 1024, sizes will be for both A and B, with A upper traingular and transposed, do
+   test_dtrmm --range 1024:4096:1024 -U -T
